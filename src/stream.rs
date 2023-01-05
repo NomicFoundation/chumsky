@@ -180,10 +180,13 @@ impl<'a, I: Clone, S: Span> Stream<'a, I, S> {
         self.offset
     }
 
-    pub(crate) fn save(&self) -> usize {
+    /// The current position of the stream
+    pub fn save(&self) -> usize {
         self.offset
     }
-    pub(crate) fn revert(&mut self, offset: usize) {
+
+    /// Revert the stream to a previous position
+    pub fn revert(&mut self, offset: usize) {
         self.offset = offset;
     }
 
@@ -205,7 +208,8 @@ impl<'a, I: Clone, S: Span> Stream<'a, I, S> {
         }
     }
 
-    pub(crate) fn next(&mut self) -> (usize, S, Option<I>) {
+    /// Get the next item from the stream
+    pub fn next(&mut self) -> (usize, S, Option<I>) {
         match self.pull_until(self.offset).cloned() {
             Some((out, span)) => {
                 self.offset += 1;
